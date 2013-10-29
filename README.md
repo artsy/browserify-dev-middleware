@@ -1,0 +1,44 @@
+# browserify-dev-middleware
+
+Middleware to compile browserify files on request for development purpose.
+
+## Example
+
+Say you have a folder /assets that holds your browserify files.
+
+````javascript
+app.use(require('browserify-dev-middleware')({
+  src: __dirname + '/assets',
+  dest: __dirname + '../public'
+}));
+````
+
+In your view (using [jade](https://github.com/visionmedia/jade))
+
+````jade
+html
+  head
+  body
+    script( src='/commits.js' )
+````
+
+Browserify Dev Middleware will compile /assets/commits.js and serve it on request.
+
+## Adding transforms
+
+Add transforms by passing it as an option.
+
+````javascript
+app.use(require('browserify-dev-middleware')({
+  src: __dirname + '/assets',
+  dest: __dirname + '../public',
+  transforms: [require('jadeify')]
+}));
+
+## Contributing
+
+Please fork the project and submit a pull request with tests. Install node modules `npm install` and run tests with `make test`.
+
+## License
+
+MIT
