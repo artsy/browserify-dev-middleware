@@ -1,0 +1,35 @@
+{
+  "name": "browserify-dev-middleware",
+  "version": "0.0.1",
+  "description": "Middleware to compile browserify files on request for development purpose.",
+  "keywords": [
+    "browserify",
+    "middleware",
+    "assets"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/artsy/browserify-dev-middleware.git"
+  },
+  "author": {
+    "name": "Craig Spaeth",
+    "email": "craigspaeth@gmail.com",
+    "url": "http://craigspaeth.com"
+  },
+  "engines": {
+    "node": ">= 0.10.x"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "browserify": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*",
+    "caching-coffeeify": "*",
+    "express": "*",
+    "superagent": "*"
+  }
+}

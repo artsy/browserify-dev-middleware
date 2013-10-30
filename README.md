@@ -8,8 +8,7 @@ Say you have a folder /assets that holds your browserify files.
 
 ````javascript
 app.use(require('browserify-dev-middleware')({
-  src: __dirname + '/assets',
-  dest: __dirname + '../public'
+  src: __dirname + '/assets'
 }));
 ````
 
@@ -30,14 +29,13 @@ Add transforms by passing it as an option.
 
 ````javascript
 app.use(require('browserify-dev-middleware')({
-  src: __dirname + '/assets',
-  dest: __dirname + '../public',
+  src: '...'
   transforms: [require('jadeify')]
 }));
 
 ## Contributing
 
-Please fork the project and submit a pull request with tests. Install node modules `npm install` and run tests with `make test`.
+Please fork the project and submit a pull request with tests. Install node modules `npm install` and run tests with `npm test`.
 
 ## License
 
