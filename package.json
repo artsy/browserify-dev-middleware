@@ -1,6 +1,6 @@
 {
   "name": "browserify-dev-middleware",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Middleware to compile browserify files on request for development purpose.",
   "keywords": [
     "browserify",

@@ -12,7 +12,6 @@ module.exports = function(options) {
         path = options.src + req.url.replace('.js', '') + '.coffee';   
       if (exists(path)) b.add(path);
       (options.transforms || []).forEach(function(t) {
-        console.log(t);
         b.transform(t);
       });
       b.bundle(function(err, text) {
