@@ -10,7 +10,11 @@ module.exports = function(options) {
         , path = options.src + req.url;
       if (!exists(path))
         path = options.src + req.url.replace('.js', '') + '.coffee';   
-      if (exists(path)) b.add(path);
+      if (exists(path)) {
+        b.add(path);
+      } else {
+        return next();
+      }
       (options.transforms || []).forEach(function(t) {
         b.transform(t);
       });

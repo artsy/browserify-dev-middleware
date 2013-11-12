@@ -6,6 +6,9 @@ app.use(require('../')({
   src: __dirname + '/assets',
   transforms: [require('caching-coffeeify')]
 }));
+app.get('/moobar.js', function(req, res){
+  res.send('Fell through')
+});
 
 describe('browserifyMiddleware', function() {
   
@@ -36,6 +39,13 @@ describe('browserifyMiddleware', function() {
   it('compiles coffeescript too', function(done) {
     request.get('http://localhost:1234/coffee.js').end(function(res){
       res.text.should.include('MOO BAR TO THE BAZ');
+      done()
+    });
+  });
+
+  it('falls through if the asset doesnt exist', function(done) {
+    request.get('http://localhost:1234/moobar.js').end(function(res){
+      res.text.should.include('Fell through');
       done()
     });
   });
