@@ -9,7 +9,7 @@ module.exports = function(options) {
       var b = browserify()
         , path = options.src + req.url;
       if (!exists(path))
-        path = options.src + req.url.replace('.js', '') + '.coffee';   
+        path = options.src + req.url.replace('.js', '') + '.coffee';
       if (exists(path)) {
         b.add(path);
       } else {
@@ -20,7 +20,9 @@ module.exports = function(options) {
       });
       b.bundle(function(err, text) {
         if (err) {
-          res.send("alert(\"BROWSERIFY COMPILE ERROR: " + err.message + "\");");
+          console.warn(err);
+          res.send("alert(\"BROWSERIFY COMPILE ERROR (check your console for more details): " +
+                   err.message + "\");");
         } else {
           res.send(text);
         }
