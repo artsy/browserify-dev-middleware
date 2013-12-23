@@ -32,6 +32,7 @@ app.use(require('browserify-dev-middleware')({
   src: '...'
   transforms: [require('jadeify')]
 }));
+````
 
 ## Contributing
 
