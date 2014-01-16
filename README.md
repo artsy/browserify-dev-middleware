@@ -4,7 +4,7 @@ Middleware to compile browserify files on request for development purpose.
 
 ## Example
 
-Say you have a folder /assets that holds your browserify files.
+Say you have a folder /assets that has a /assets/commit.js file using browserify.
 
 ````javascript
 app.use(require('browserify-dev-middleware')({
