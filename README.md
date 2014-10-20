@@ -34,6 +34,26 @@ app.use(require('browserify-dev-middleware')({
 }));
 ````
 
+Specify global transforms too.
+
+````javascript
+app.use(require('browserify-dev-middleware')({
+  src: '...'
+  globalTransforms: [require('deamdify')]
+}));
+````
+
+Or just interact with the bundle directly.
+
+````javascript
+app.use(require('browserify-dev-middleware')({
+  src: '...'
+  intercept: function(bundle) {
+    bundle.transform({ global: true }, require('deamdify'));
+  }
+}));
+````
+
 ## Contributing
 
 Please fork the project and submit a pull request with tests. Install node modules `npm install` and run tests with `npm test`.
