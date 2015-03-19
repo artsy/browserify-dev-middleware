@@ -1,13 +1,20 @@
 var extname = require('path').extname
   , exists  = require('fs').existsSync
   , basename = require('path').basename
-  , browserify = require('browserify');
+  , browserify = require('browserify')
+  , debug = require('debug')('browserify-dev-middleware');
 
 module.exports = function(options) {
   return function(req, res, next) {
     if (extname(req.url) == '.js') {
-      var b = browserify()
-        , path = options.src + req.url;
+      debug("Bundling " + req.url);
+      var b = browserify({
+        insertGlobals: true,
+        noParse: (options.noParse || []).map(function(lib) {
+          return require.resolve(lib);
+        })
+      });
+      var path = options.src + req.url;
       if (!exists(path))
         path = options.src + req.url.replace('.js', '') + '.coffee';
       if (exists(path)) {
@@ -24,11 +31,12 @@ module.exports = function(options) {
       if (options.intercept) options.intercept(b);
       b.bundle(function(err, text) {
         if (err) {
-          console.warn(err);
+          console.warn(err.message);
           res.send("alert(\"BROWSERIFY COMPILE ERROR (check your console for more details): " +
                    err.message + "\");");
         } else {
-          res.send(text);
+          debug("Finished bundling " + req.url);
+          res.send(text.toString());
         }
       });
     } else {
