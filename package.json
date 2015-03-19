@@ -23,7 +23,8 @@
     "test": "mocha"
   },
   "dependencies": {
-    "browserify": "*"
+    "browserify": "*",
+    "debug": "*"
   },
   "devDependencies": {
     "mocha": "*",
