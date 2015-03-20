@@ -1,11 +1,16 @@
 require('./')({
   src: __dirname + '/test',
   transforms: [require('caching-coffeeify')],
-  noParse: ['./test/assets/jquery', './test/assets/ember']
+  noParse: [
+    require.resolve('./test/assets/jquery'),
+    require.resolve('./test/assets/ember')
+  ],
+  insertGlobals: true
 })(
   { url: '/assets/perf.js' },
   { send: function(){
       console.log("done")
+      process.exit()
   } },
   function(){}
 )

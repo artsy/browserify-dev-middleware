@@ -1,6 +1,6 @@
 {
   "name": "browserify-dev-middleware",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Middleware to compile browserify files on request for development purpose.",
   "keywords": [
     "browserify",
@@ -24,7 +24,9 @@
   },
   "dependencies": {
     "browserify": "*",
-    "debug": "*"
+    "debug": "*",
+    "underscore": "*",
+    "watchify": "*"
   },
   "devDependencies": {
     "mocha": "*",
