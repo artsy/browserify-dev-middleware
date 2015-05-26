@@ -49,6 +49,7 @@ module.exports = function(options) {
             (options.globalTransforms || []).forEach(function(t) {
               b.transform({ global: true }, t);
             });
+            if (options.intercept) options.intercept(b);
             w = watchers[path] = watchify(b);
             bundleAndCache(w, path);
           } else {
