@@ -52,15 +52,14 @@ module.exports = function(options) {
             if (options.intercept) options.intercept(b);
             w = watchers[path] = watchify(b);
             bundleAndCache(w, path);
+            // Re-bundle & cache the output on file change
+            w.on('update', function() {
+              cached[path] = null;
+              bundleAndCache(w, path);
+            });
           } else {
             w = watchers[path];
           }
-
-          // Re-bundle & cache the output on file change
-          w.on('update', function() {
-            cached[path] = null;
-            bundleAndCache(w, path);
-          });
 
           // Serve cached asset if it hasn't change
           if (cached[path]) {
