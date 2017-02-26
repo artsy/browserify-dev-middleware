@@ -1,10 +1,16 @@
-var extname = require('path').extname,
-    fs = require('fs'),
-    basename = require('path').basename,
-    browserify = require('browserify'),
-    watchify = require('watchify'),
-    debug = require('debug')('browserify-dev-middleware'),
-    _ = require('underscore');
+var PrettyError = require('pretty-error');
+var _ = require('underscore');
+var basename = require('path').basename;
+var beep = require('beepbeep')
+var browserify = require('browserify');
+var errorify = require('errorify');
+var debug = require('debug')('browserify-dev-middleware');
+var extname = require('path').extname;
+var fs = require('fs');
+var notifier = require('node-notifier')
+var watchify = require('watchify');
+
+var pe = new PrettyError();
 
 var watchers = {};
 var cached = {};
@@ -12,12 +18,26 @@ var cached = {};
 var bundleAndCache = function(w, path) {
   w.bundle(function(err, src) {
     if (err) {
-      console.warn(err.message);
-      cached[path] = "alert(\"BROWSERIFY COMPILE ERROR (check your " +
-        "console for more details): " + err.message + "\");";
+      cached[path] = `
+        if (typeof window !== 'undefined') {
+          console.warn('Error bundling file: ${path}')
+          console.error('${err.message}')
+          alert("BROWSERIFY COMPILE ERROR (check your console for more details): ${err.message}");
+        }
+      `
+
+      console.log(pe.render(new Error(err.message)));
+
+      notifier.notify({
+        'title': 'Browserify compile error!',
+        'message': 'Check terminal console for more info.'
+      });
+
+      beep(2);
       w.emit('error');
     } else {
       cached[path] = src.toString();
+      console.log('Bundled: ' + path);
     }
   });
 }
@@ -42,13 +62,20 @@ module.exports = function(options) {
             var b = browserify(_.extend(_.omit(options,
               'transforms', 'globalTransforms', 'src'
             ), watchify.args));
+
             b.add(path);
-            (options.transforms || []).forEach(function(t) {
+            b.plugin(errorify);
+
+            const transforms = options.transforms || [];
+            transforms.forEach(function(t) {
               b.transform(t);
             });
-            (options.globalTransforms || []).forEach(function(t) {
+
+            const globalTransforms = options.globalTransforms || [];
+            globalTransforms.forEach(function(t) {
               b.transform({ global: true }, t);
             });
+
             if (options.intercept) options.intercept(b);
             w = watchers[path] = watchify(b);
             bundleAndCache(w, path);
@@ -72,7 +99,10 @@ module.exports = function(options) {
                 res.send(cached[path]);
               });
             });
-            w.once('time', end).once('error', end);
+            w.once('time', end) //.once('error', end);
+
+            // Don't exit process on error so that we can fix and continue
+            w.on('error', function(err) {})
           }
         });
       });

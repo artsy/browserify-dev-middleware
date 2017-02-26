@@ -1,6 +1,6 @@
 {
   "name": "browserify-dev-middleware",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Middleware to compile browserify files on request for development purpose.",
   "keywords": [
     "browserify",
@@ -16,7 +16,8 @@
     "node": ">= 4.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start:server": "cd test && node server.js"
   },
   "bugs": {
     "url": "https://github.com/artsy/browserify-dev-middleware/issues"
@@ -28,16 +29,20 @@
   },
   "license": "MIT",
   "dependencies": {
-    "browserify": "^12.0.1",
+    "beepbeep": "1.2.0",
+    "browserify": "^14.1.0",
     "debug": "^2.2.0",
+    "errorify": "0.3.1",
+    "node-notifier": "5.0.2",
+    "pretty-error": "2.0.2",
     "underscore": "^1.8.3",
-    "watchify": "^3.6.0"
+    "watchify": "^3.9.0"
   },
   "devDependencies": {
-    "mocha": "^2.3.3",
-    "should": "^7.1.1",
     "caching-coffeeify": "^0.5.1",
     "express": "^4.13.3",
+    "mocha": "^2.3.3",
+    "should": "^7.1.1",
     "superagent": "^1.4.0"
   }
 }
