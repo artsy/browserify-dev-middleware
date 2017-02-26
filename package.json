@@ -1,6 +1,6 @@
 {
   "name": "browserify-dev-middleware",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Middleware to compile browserify files on request for development purpose.",
   "keywords": [
     "browserify",
@@ -16,7 +16,7 @@
     "node": ">= 4.0"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "concurrently 'mocha' 'standard index.js'",
     "start:server": "cd test && node server.js"
   },
   "bugs": {
@@ -31,10 +31,12 @@
   "dependencies": {
     "beepbeep": "1.2.0",
     "browserify": "^14.1.0",
+    "concurrently": "^3.3.0",
     "debug": "^2.2.0",
     "errorify": "0.3.1",
     "node-notifier": "5.0.2",
     "pretty-error": "2.0.2",
+    "standard": "^8.6.0",
     "underscore": "^1.8.3",
     "watchify": "^3.9.0"
   },
