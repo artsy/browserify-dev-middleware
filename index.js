@@ -22,7 +22,6 @@ var bundleAndCache = function(w, path) {
         if (typeof window !== 'undefined') {
           console.warn('Error bundling file: ${path}')
           console.error('${err.message}')
-          alert("BROWSERIFY COMPILE ERROR (check your console for more details): ${err.message}");
         }
       `
 
