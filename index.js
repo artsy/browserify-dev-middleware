@@ -18,6 +18,14 @@ const bundleAndCache = (w, path) => {
     if (err) {
       console.log(pe.render(new Error(err.message)))
 
+      // Send error to browser console
+      cached[path] = `
+        if (typeof window !== 'undefined') {
+          console.warn('Error bundling file: ${path}')
+          console.error('${err.message}')
+        }
+      `
+
       notifier.notify({
         'title': 'Browserify compile error!',
         'message': 'Check terminal console for more info.'
@@ -27,7 +35,7 @@ const bundleAndCache = (w, path) => {
       w.emit('error')
     } else {
       cached[path] = src.toString()
-      console.log('Bundled: ' + path)
+      console.log('[Bundled] ' + path)
     }
   })
 }
@@ -53,7 +61,6 @@ module.exports = (options) => (req, res, next) => {
           ), watchify.args))
 
           b.add(path)
-          b.plugin(errorify)
 
           const transforms = options.transforms || []
           transforms.forEach((t) => {
