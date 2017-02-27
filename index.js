@@ -50,7 +50,7 @@ module.exports = (options) => (req, res, next) => {
         if (!watchers[path]) {
           const b = browserify(_.extend(_.omit(options,
             'transforms', 'globalTransforms', 'src'
-          ), watchify.args, { debug: true }))
+          ), watchify.args))
 
           b.add(path)
           b.plugin(errorify)
